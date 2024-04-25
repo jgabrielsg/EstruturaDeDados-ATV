@@ -62,9 +62,21 @@ int main()
     // Testando searchNodebyValue
     Node* searchedNode = searchNodebyValue(&head, 5); // Procura um nó com valor 5
     Node* searchedNode2 = searchNodebyValue(&head, 24); // Procura um nó com valor 24
-    
+
+    // Testando se a busca retorna um nó válido
+    if (searchedNode != nullptr)
+        cout << "Nó com valor 5 encontrado." << endl;
+    else
+        cout << "Nó com valor 5 não encontrado." << endl;
+
+    if (searchedNode2 != nullptr)
+        cout << "Nó com valor 24 encontrado." << endl;
+    else
+        cout << "Nó com valor 24 não encontrado." << endl;
+
     return 0;
 }
+
 
 
 Node* createNode(int iPayload)
@@ -73,7 +85,7 @@ Node* createNode(int iPayload)
     temp->iPayload = iPayload;
     temp->ptrNext = nullptr;
     temp->ptrPrev = nullptr;
-    
+
     return temp;
 }
 
@@ -85,24 +97,24 @@ void displayList(Node* node)
         cout << "Lista vazia: Não é possível realizar displayList" << endl;
         return; //Usa return pra sair da função, o resto do código não será executado
     }
-    
+
     if  (node -> ptrPrev != nullptr)
     {
         cout << "Meio ou Fim da Lista: Não é possível realizar displayList" << endl;
         return;
-       
+
     }
-    
+
     Node* temp = node;
-     
+
     cout << "Payload: ";
-    
+
     while(temp != nullptr)
     {
         cout << temp->iPayload<< " ";
         temp = temp->ptrNext;
     }
-    
+
     cout << endl;
 }
 
@@ -110,13 +122,13 @@ void insertFront(Node** head, int iPayload)
 {
     Node* newNode = createNode(iPayload);
     // newNode->ptrNext = nullptr;
-    
+
     if (*head != nullptr)
     {
         (*head)->ptrPrev = newNode;
         newNode->ptrNext = (*head);
         (*head) = newNode;
-        
+
         return;
     }
 }
@@ -125,20 +137,20 @@ void insertEnd(Node** head, int iPayload)
 {
   Node* newNode = createNode(iPayload);
   //newNode -> ptrNext = nullptr;
-  
+
   if (*head == nullptr)
   {
       //newNode -> ptrNext = nullptr; Essa linha não é obrigatória pois já definimos anteriormente
       (*head) = newNode;
       return;
-      
+
   }
-  
+
   Node* temp = (*head);
-  
+
   //Percorremos a lista até seu fim(ptrNext do ultimo nó é NULL)
   while(temp->ptrNext != nullptr) temp = temp->ptrNext;
-  
+
   newNode->ptrPrev = temp; //newNode aponta para o fim da lista
   temp->ptrNext = newNode; //Antigo último elemento aponta para o novo nó
 }
@@ -150,13 +162,13 @@ void insertAfter(Node* ptrLocation, int iPayload)
         cout << "Location é NULL" << endl;
         return;
     }
-    
+
     Node* newNode = createNode(iPayload);
-    
+
     // Corrigir nó a ser inserido
     newNode->ptrNext = ptrLocation->ptrNext;
     newNode->ptrPrev = ptrLocation;
-    
+
     // Corrigir outros nós
     if (ptrLocation->ptrNext != nullptr) // Checa se a location não for a última
     {
@@ -172,16 +184,16 @@ void deleteNode(Node** head, Node* ptrDelete)
         cout << "Não foi possível remover." << endl;
         return;
     }
-    
+
     // Se o ptrDelete for o primeiro
     if (*head == ptrDelete) (*head) = ptrDelete->ptrNext;
-    
+
     // Se o ptrDelete não é o último nó
     if (ptrDelete->ptrNext != nullptr) ptrDelete->ptrNext->ptrPrev = ptrDelete->ptrPrev;
-    
+
     // Se o ptrDelete não for o primeiro
     if (ptrDelete->ptrPrev != nullptr) ptrDelete->ptrPrev->ptrNext = ptrDelete->ptrNext;
-    
+
     free(ptrDelete);
 }
 
@@ -193,13 +205,13 @@ void insertBefore(Node* ptrLocation, int iPayload)
         cout << "Location é NULL" << endl;
         return;
     }
-    
+
     Node* newNode = createNode(iPayload);
-    
+
     // Corrigir nó a ser inserido
     newNode->ptrNext = ptrLocation;
     newNode->ptrPrev = ptrLocation->ptrPrev;
-    
+
     // Corrigir outros nós
     if (ptrLocation->ptrPrev != nullptr) // Checa se a location não for a primeira
     {
@@ -216,22 +228,22 @@ void deleteNodebyValue(Node** head, int iPayload)
         cout << "Não foi possível remover." << endl;
         return;
     }
-    
+
     Node* temp = *head;
-    
+
     // Procurar o nó com o valor especificado
     while(temp != nullptr && temp->iPayload != iPayload)
     {
         temp = temp->ptrNext;
     }
-    
+
     // Se o nó não foi encontrado
     if(temp == nullptr)
     {
         cout << "Nó com valor " << iPayload << " não encontrado." << endl;
         return;
     }
-    
+
     // Se o nó foi encontrado, deletar
     cout << "Nó com valor " << iPayload << " deletado." << endl;
     deleteNode(head, temp);
@@ -245,9 +257,9 @@ Node* searchNodebyValue(Node** head, int iPayload)
         cout << "Lista vazia." << endl;
         return nullptr;
     }
-    
+
     Node* temp = *head;
-    
+
     // Procurar o nó com o valor especificado
     while(temp != nullptr)
     {
@@ -258,7 +270,7 @@ Node* searchNodebyValue(Node** head, int iPayload)
         }
         temp = temp->ptrNext;
     }
-    
+
     // Se o nó não foi encontrado
     cout << "Nó com valor " << iPayload << " não encontrado." << endl;
     return nullptr;
